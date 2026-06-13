@@ -1,0 +1,63 @@
+/* ==========================================================================
+   ФАЙЛ ДЛЯ КАРТИНОК ТА ФОТОГРАФІЙ САЙТУ (З ПАПКИ фото)
+   ========================================================================== */
+
+/* ВЕЛИКИЙ ЛІВИЙ БАНЕР */
+.family-banner {
+    background-image: url('foto/Gemini_Generated_Image_n1l21cn1l21cn1l2.png'); 
+    background-size: contain;     /* ВИПРАВЛЕНО: тепер усе фото буде видно повністю від краю до краю */
+    background-position: center;  /* Фото центровано */
+    background-repeat: no-repeat; /* Картинка не буде дублюватися, якщо вона менша за блок */
+}
+/* Загальні налаштування для верхнього блоку колажу */
+.header-banners {
+    display: flex;
+    background-color: #fff;
+    border-bottom: 3px solid #cf2e2e;
+}
+
+.school-photo {
+    width: 25%;             
+    height: 140px;          
+    background-size: cover; 
+    background-position: center; 
+    border-right: 1px solid #fff; 
+}
+
+/* 4 картинки колажу вгорі сайту */
+.photo-1 {
+    background-image: url('фото/banner1.jpg');
+}
+
+.photo-2 {
+    background-image: url('фото/banner2.jpg');
+}
+
+.photo-3 {
+    background-image: url('фото/banner3.jpg');
+}
+
+.photo-4 {
+    background-image: url('фото/banner4.jpg');
+}
+
+
+/* Картинки для блоку новин (права колонка) */
+.news-img {
+    width: 70px;          
+    height: 55px;         
+    background-size: cover;
+    background-position: center;
+    margin-right: 12px;
+    border-radius: 3px;
+    border: 1px solid #cbd5e1;
+    flex-shrink: 0;       
+}
+
+.img-news-1 {
+    background-image: url('foto/Gemini_Generated_Image_n1l21cn1l21cn1l2.png');
+}
+
+.img-news-2 {
+    background-image: url('фото/news2.jpg');
+}
