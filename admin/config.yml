@@ -1,11 +1,5 @@
-backend:
-  name: git-gateway
-  branch: main
-
-media_folder: "images"
-public_folder: "images"
-
 collections:
+  # Ваші новини (вже є)
   - name: "news"
     label: "Новини"
     folder: "news"
@@ -15,3 +9,12 @@ collections:
       - {label: "Заголовок", name: "title", widget: "string"}
       - {label: "Дата", name: "date", widget: "datetime"}
       - {label: "Текст", name: "body", widget: "markdown"}
+
+  # Додаємо редагування сторінок
+  - name: "pages"
+    label: "Сторінки"
+    folder: "content" # Створіть папку 'content' на GitHub
+    create: true
+    fields:
+      - {label: "Назва сторінки", name: "title", widget: "string"}
+      - {label: "Контент", name: "body", widget: "markdown"}
