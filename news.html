@@ -60,48 +60,57 @@
         <p>&copy; 2026 Опорний заклад Нижньосірогозький ліцей</p>
     </footer>
 
-    <script>
-        // Меню
-        const burgerBtn = document.getElementById('burgerBtn');
-        const navContainer = document.getElementById('navContainer');
-        burgerBtn.addEventListener('click', (e) => { e.stopPropagation(); navContainer.classList.toggle('active'); });
+   <script>
+    // Меню
+    const burgerBtn = document.getElementById('burgerBtn');
+    const navContainer = document.getElementById('navContainer');
+    burgerBtn.addEventListener('click', (e) => { e.stopPropagation(); navContainer.classList.toggle('active'); });
 
-        // Автоматичне завантаження новин з GitHub
-        async function loadNews() {
-            try {
-                // Вкажіть тут назву вашого репозиторію у форматі: власник/репозиторій
-                const repo = 'alllpar065-cloud/school-site2'; 
-                const response = await fetch(`https://api.github.com/repos/${repo}/contents/news`);
-                const files = await response.json();
+    // Покращене завантаження новин з обробкою Markdown та фото
+    async function loadNews() {
+        try {
+            const repo = 'alllpar065-cloud/school-site2'; 
+            const response = await fetch(`https://api.github.com/repos/${repo}/contents/news`);
+            const files = await response.json();
+            
+            const container = document.getElementById('news-container');
+            container.innerHTML = ''; 
+
+            files.reverse(); 
+
+            for (const file of files) {
+                const contentRes = await fetch(file.download_url);
+                const text = await contentRes.text();
                 
-                const container = document.getElementById('news-container');
-                container.innerHTML = ''; 
+                // Розбиваємо контент на частини
+                const parts = text.split('---');
+                const meta = parts[1] || '';
+                const body = parts[2] || parts[0];
 
-                // Сортуємо: найновіші зверху
-                files.reverse();
+                const titleMatch = meta.match(/title: (.*)/);
+                const dateMatch = meta.match(/date: (.*)/);
+                
+                // Перетворюємо Markdown на HTML
+                // Фото: ![](images/foto.jpg) -> <img src="...">
+                let htmlBody = body.replace(/!\[.*?\]\((.*?)\)/g, '<img src="$1" style="max-width:100%; border-radius:8px; margin: 10px 0;">');
+                // Жирний текст: **текст** -> <strong>текст</strong>
+                htmlBody = htmlBody.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-                for (const file of files) {
-                    const contentRes = await fetch(file.download_url);
-                    const text = await contentRes.text();
-                    
-                    // Парсимо дані з markdown файлу (заголовок та дата)
-                    const titleMatch = text.match(/title: (.*)/);
-                    const dateMatch = text.match(/date: (.*)/);
-                    const body = text.split('---')[2] || text; 
-
-                    container.innerHTML += `
-                        <div class="news-item">
-                            <h2 class="news-title">${titleMatch ? titleMatch[1] : 'Без назви'}</h2>
-                            <span class="news-date">🕒 ${dateMatch ? new Date(dateMatch[1]).toLocaleDateString('uk-UA') : ''}</span>
-                            <p>${body}</p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                document.getElementById('news-container').innerHTML = "Наразі новин немає.";
+                container.innerHTML += `
+                    <div class="news-item" style="margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
+                        <h2 style="color: #224263; margin-bottom: 5px;">${titleMatch ? titleMatch[1] : 'Без назви'}</h2>
+                        <span style="display:block; color: #666; margin-bottom: 15px; font-size: 0.9em;">
+                            📅 ${dateMatch ? new Date(dateMatch[1]).toLocaleDateString('uk-UA') : ''}
+                        </span>
+                        <div style="line-height: 1.6; font-size: 1.1em; color: #333;">${htmlBody}</div>
+                    </div>
+                `;
             }
+        } catch (error) {
+            document.getElementById('news-container').innerHTML = "Наразі новин немає.";
         }
-        loadNews();
-    </script>
+    }
+    loadNews();
+</script>
 </body>
 </html>
