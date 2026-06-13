@@ -10,7 +10,7 @@ collections:
     label: "Новини"
     folder: "news"
     create: true
-    fields:
-      - {label: "Заголовок", name: "title", widget: "string"}
-      - {label: "Дата", name: "date", widget: "datetime"}
-      - {label: "Текст", name: "body", widget: "markdown"}
+   fields:
+  - {label: "Заголовок", name: "title", widget: "string"}
+  - {label: "Дата та час", name: "date", widget: "datetime"}
+  - {label: "Текст", name: "body", widget: "markdown"}
