@@ -23,7 +23,7 @@
         </div>
     </header>
 
-    <nav class="main-nav-visible">            
+    <nav class="main-nav-visible" id="leftMenu">            
         <ul class="nav-container" id="navContainer">
             <li><a href="news.html">Новини</a></li>
             <li><a href="info.html">Інформація про заклад</a></li>
@@ -37,37 +37,86 @@
         </ul>
     </nav>
 
+    <a href="rules.html" class="top-family-banner-link">
+        <div class="header-banners family-banner">
+            <div class="family-banner-overlay">
+                <span>Приєднуйся до нашої шкільної родини!</span>
+            </div>
+        </div>
+    </a>
+
     <div class="site-layout">
+        
+        <aside class="left-sidebar">
+            <div class="widget-title">Розклад дзвінків</div>
+            <div style="margin-bottom: 15px; text-align: center;">
+                <label for="class-select" style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 5px; color: #224263;">Оберіть клас:</label>
+                <select id="class-select" onchange="changeSchedule()" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; color: #224263; background-color: #f8fafc; cursor: pointer;"> 
+                    <option value="1">1 клас</option><option value="2">2 клас</option>
+                    <option value="3">3 клас</option><option value="4">4 клас</option>
+                    <option value="5">5 клас</option><option value="6">6 клас</option>
+                    <option value="7">7 клас</option><option value="8">8 клас</option>
+                    <option value="9">9 клас</option><option value="10">10 клас</option>
+                    <option value="11" selected>11 клас</option> 
+                </select>
+            </div>
+            <table class="schedule-table" id="schedule-body"></table>
+            <br>
+            <div class="widget-title">Електронні щоденники</div>
+            <div style="text-align: center; padding: 5px 0;">
+                <a href="https://vseosvita.ua/" target="_blank" class="diary-btn">📖 Щоденник на Всеосвіта</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>ЛАСКАВО ПРОСИМО!</h1>
+            <h2>Щиро раді вітати Вас на сайті нашого освітнього закладу!</h2>
+            <p><strong>Опорний заклад Нижньосірогозький ліцей сьогодні — це:</strong></p>
+            <ul>
+                <li>Компетентні педагоги та співробітники</li>
+                <li>Робота з обдарованими учнями (олімпіади, МАН)</li>
+                <li>Профільне навчання учнів 10-11 класів</li>
+            </ul>
+        </main>
+
         <aside class="sidebar">
             <div class="widget-title">Адміністрування</div>
-            <div class="login-box" style="text-align: center; padding: 15px;">
-                <a href="/admin/" class="login-btn" style="text-decoration: none; display: block; padding: 10px; background: #cf2e2e; color: white; border-radius: 5px;">
+            <div style="text-align: center; padding: 15px;">
+                <a href="/admin/" style="background: #cf2e2e; color: white; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: bold;">
                     Увійти в кабінет редагування
                 </a>
             </div>
             <br>
 
             <div class="widget-title">Останні новини</div>
-            </aside>
+            <div class="news-item"><div class="news-img img-news-1"></div><a href="#">Виховна година "Увага! Інтернет!"</a></div>
+            <div class="news-item"><div class="news-img img-news-2"></div><a href="#">Профорієнтаційна година "Світ професій"</a></div>
+            <p style="text-align: right; font-size: 12px;"><a href="news.html" style="color: #cf2e2e; font-weight: bold; text-decoration: none;">Усі Новини →</a></p>
+            <br>
+
+            <div class="widget-title">Календар</div>
+            <div class="calendar-title" id="calendarMonth">Червень 2026</div>
+            <table class="mini-calendar" id="miniCalendar">
+                <thead><tr><th>П</th><th>В</th><th>С</th><th>Ч</th><th>П</th><th>С</th><th>Н</th></tr></thead>
+                <tbody id="calendarBody"></tbody>
+            </table>
+        </aside>
     </div>
 
     <footer>
-        <p>&copy; 2026 Опорний заклад Нижньосірогозький ліцей<br>
-        Дата останньої зміни: 13 Червня 2026</p>
+        <p>&copy; 2026 Опорний заклад Нижньосірогозький ліцей<br>Дата останньої зміни: 13 Червня 2026</p>
     </footer>
 
     <script>
-        // Скрипт меню
+        // Меню
         const burgerBtn = document.getElementById('burgerBtn');
+        const leftMenu = document.getElementById('leftMenu');
         const navContainer = document.getElementById('navContainer');
-        burgerBtn.addEventListener('click', () => navContainer.classList.toggle('active'));
+        burgerBtn.addEventListener('click', function(e) { e.stopPropagation(); leftMenu.classList.toggle('active'); navContainer.classList.toggle('active'); });
 
-        // Скрипт розкладу (ваша логіка залишена)
-        var schedules = { /* ... ваш код розкладів ... */ };
-        function changeSchedule() {
-            var selectedClass = document.getElementById("class-select").value;
-            document.getElementById("schedule-body").innerHTML = schedules[selectedClass];
-        }
+        // Розклади
+        var schedules = { "1": "<tr><td>1</td><td>08:30</td></tr>", "11": "<tr><td>1</td><td>08:30</td></tr>" }; // Додайте сюди інші класи
+        function changeSchedule() { document.getElementById("schedule-body").innerHTML = schedules[document.getElementById("class-select").value] || "Оберіть клас"; }
         window.onload = changeSchedule;
 
         // Календар
@@ -75,11 +124,8 @@
             const now = new Date();
             const monthNames = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
             document.getElementById('calendarMonth').innerText = monthNames[now.getMonth()] + " " + now.getFullYear();
-            
             const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
             const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-            const calendarBody = document.getElementById('calendarBody');
-            
             let html = "<tr>";
             let dayOfWeek = (firstDay === 0) ? 6 : firstDay - 1;
             for (let i = 0; i < dayOfWeek; i++) html += "<td></td>";
@@ -88,7 +134,7 @@
                 let className = (day === now.getDate()) ? 'class="today"' : '';
                 html += `<td ${className}>${day}</td>`;
             }
-            calendarBody.innerHTML = html;
+            document.getElementById('calendarBody').innerHTML = html + "</tr>";
         }
         generateCalendar();
     </script>
