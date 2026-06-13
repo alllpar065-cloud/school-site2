@@ -1,0 +1,15 @@
+backend:
+  name: github
+  repo: ВАШ_НІКНЕЙМ_GITHUB/ВАША_НАЗВА_РЕПОЗИТОРІЮ # Наприклад: ivan-teacher/school-site
+  branch: main
+media_folder: "images"
+public_folder: "images"
+collections:
+  - name: "news"
+    label: "Новини"
+    folder: "news"
+    create: true
+    fields:
+      - {label: "Заголовок", name: "title", widget: "string"}
+      - {label: "Дата", name: "date", widget: "datetime"}
+      - {label: "Текст", name: "body", widget: "markdown"}
